@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
+
+import { searchMoviesByTitle } from './logic/OMDBCommunication'
 
 import SearchBar from './components/searchBar'
 import SearchResults from './components/searchResults'
 import NominationsList from './components/nominationsList'
 
 function App() {
+
+ 
+
+
   return (
     <Page>
       <SearchBar />
