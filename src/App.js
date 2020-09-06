@@ -23,13 +23,22 @@ function App() {
 
   const [nominations, setNominations] = useState([])
 
-  
+  const addNomination = movie => {
+    if (nominations.length < 5) {
+      setNominations([...nominations, movie])
+    }
+  }
 
+  const removeNomination = id => {
+    setNominations(nominations.filter(nom => nom.id !== id))
+  }
+
+  
   return (
     <Page>
       <SearchBar fetchThenSetResults={fetchThenSetResults} />
-      <SearchResults searchInfo={searchInfo}/>
-      <NominationsList />
+      <SearchResults searchInfo={searchInfo} addNomination={addNomination} />
+      <NominationsList nominations={nominations} removeNomination={removeNomination} />
     </Page>
   );
 }
