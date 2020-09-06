@@ -5,8 +5,11 @@
 html {
   --background-color: #e6e9ec;
   --card-color: #f6f8fa;
+  --notification-color: #354758;
 
   --border: 1px solid #ccc;
+
+  --banner-height: 60px;
 }
 
 body {

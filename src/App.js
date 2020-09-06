@@ -6,6 +6,8 @@ import { fetchMoviesByTitle, extractMovieData } from './logic/OMDBCommunication'
 import SearchBar from './components/searchBar'
 import SearchResults from './components/searchResults'
 import NominationsList from './components/nominationsList'
+import CompletionBanner from './components/completionBanner'
+
 
 function App() {
 
@@ -32,13 +34,18 @@ function App() {
   const removeNomination = id => {
     setNominations(nominations.filter(nom => nom.id !== id))
   }
+
+  const nominationsComplete = nominations.length >= 5
   
   return (
-    <Page>
-      <SearchBar fetchThenSetResults={fetchThenSetResults} />
-      <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} />
-      <NominationsList nominations={nominations} removeNomination={removeNomination} />
-    </Page>
+    <>
+      {nominationsComplete ? <CompletionBanner /> : null}
+      <Page nominationsComplete={nominationsComplete}>
+        <SearchBar fetchThenSetResults={fetchThenSetResults} />
+        <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} />
+        <NominationsList nominations={nominations} removeNomination={removeNomination} />
+      </Page>
+    </>
   );
 }
 
@@ -46,7 +53,7 @@ export default App;
 
 const Page = styled.main`
 
-  margin: 64px auto 0 auto;
+  margin: calc( ${props => props.nominationsComplete ? "var(--banner-height)" : "0px"} + 64px ) auto 0 auto;
   width: 96vw;
   max-width: 1000px;
 

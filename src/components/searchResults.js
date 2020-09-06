@@ -7,7 +7,7 @@ import ListedMovie from './listedMovie'
 const SearchResults = ({ searchInfo: { searchTerm, results }, addNomination, nominations }) => {
     return (
         <PageSection gridArea="search-results">
-            {searchTerm && <h4>Results for "{searchTerm}"</h4>}
+            {searchTerm ? <h4>Results for "{searchTerm}"</h4> : null}
             <ul>
                 {results.map( movie => 
                     <ListedMovie
