@@ -3,17 +3,22 @@ const key = process.env.REACT_APP_OMDB_KEY
 const baseURL = `http://www.omdbapi.com/?apikey=${key}`
 
 const baseFetch = term => {
-    const thing = fetch(`${baseURL}&${term}`).then(resp => resp.json())
-    console.log(thing)
-    return thing
+    return fetch(`${baseURL}&${term}`).then(resp => resp.json())
 }
 
-export const searchMoviesByTitle = (searchTerm, callback) => {
+export const fetchMoviesByTitle = searchTerm => {
     const term = `s=${searchTerm}`
-    baseFetch(term).then(callback)
+    return baseFetch(term)
 }
 
-export const findMovieById = (omdbId, callback) => {
+export const fetchMovieById = omdbId => {
     const term = `i=${omdbId}`
-    baseFetch(term).then(callback)
+    return baseFetch(term)
+}
+
+export const extractMovieData = movieResult => {
+    const id = movieResult.imdbID
+    const title = movieResult.Title
+    const year = movieResult.Year
+    return { id, year, title }
 }

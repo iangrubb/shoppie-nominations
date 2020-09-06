@@ -6,6 +6,8 @@ import { PageSection } from '../styles/components'
 const NominationsList = () => {
     return (
         <PageSection gridArea="nominations-list">
+
+            
             
         </PageSection>
     )

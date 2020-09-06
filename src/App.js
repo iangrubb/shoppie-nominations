@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components'
 
-import { searchMoviesByTitle } from './logic/OMDBCommunication'
+import { fetchMoviesByTitle, extractMovieData } from './logic/OMDBCommunication'
 
 import SearchBar from './components/searchBar'
 import SearchResults from './components/searchResults'
@@ -9,13 +9,26 @@ import NominationsList from './components/nominationsList'
 
 function App() {
 
- 
+  const [searchInfo, setSearchInfo] = useState({searchTerm: "", results: []})
 
+  const fetchThenSetResults = searchTerm => {
+    fetchMoviesByTitle(searchTerm)
+    .then(data => {
+      const results = data.Search.map(extractMovieData)
+      setSearchInfo({ searchTerm, results })
+    })
+  }
+
+
+
+  const [nominations, setNominations] = useState([])
+
+  
 
   return (
     <Page>
-      <SearchBar />
-      <SearchResults />
+      <SearchBar fetchThenSetResults={fetchThenSetResults} />
+      <SearchResults searchInfo={searchInfo}/>
       <NominationsList />
     </Page>
   );
