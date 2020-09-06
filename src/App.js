@@ -32,12 +32,11 @@ function App() {
   const removeNomination = id => {
     setNominations(nominations.filter(nom => nom.id !== id))
   }
-
   
   return (
     <Page>
       <SearchBar fetchThenSetResults={fetchThenSetResults} />
-      <SearchResults searchInfo={searchInfo} addNomination={addNomination} />
+      <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} />
       <NominationsList nominations={nominations} removeNomination={removeNomination} />
     </Page>
   );
