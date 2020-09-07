@@ -44,10 +44,10 @@ export const Button = styled.button`
     margin: 2px;
 
     width: fit-content;
-    padding: 8px 12px;
+    padding: 4px 8px;
     border-radius: 4px;
     
-    font-size: 16px;
+    font-size: 14px;
     color: ${props => props.light ? "var(--text-color)" : "white" };
 
     cursor: pointer;
@@ -55,6 +55,11 @@ export const Button = styled.button`
     &:disabled {
         background: rgb(119, 119, 129);
         cursor: auto;
+    }
+
+    @media (min-width: 500px) {
+        font-size: 16px;
+        padding: 8px 12px;
     }
     
 

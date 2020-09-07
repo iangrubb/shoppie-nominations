@@ -14,7 +14,7 @@ const CompletionBanner = ({ nominations, show }) => {
     return (
         <Container show={show}>
             <Announcement>You've nominated 5 movies!</Announcement>
-            <Button light onClick={confirmSubmissions}>Submit Nominations</Button>
+            <Button light onClick={confirmSubmissions}>Submit</Button>
         </Container>
     )
 }
