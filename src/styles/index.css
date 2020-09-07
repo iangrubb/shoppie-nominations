@@ -6,10 +6,10 @@ html {
   --background-color: #e6e9ec;
   --card-color: #f6f8fa;
   --notification-color: #354758;
-
-  --border: 1px solid #ccc;
+  --text-color: #232427;
 
   --banner-height: 60px;
+
 }
 
 body {
@@ -21,6 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background: var(--background-color);
+  color: var(--text-color);
 }
 
 code {

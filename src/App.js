@@ -21,9 +21,6 @@ function App() {
   const [searchInfo, setSearchInfo] = useState(defaultSearch)
 
   const updateSearchResults = (searchTerm, page = 1) => {
-
-    // Make sure we don't refetch on same search term, and we only fetch more on a new page
-
     if (searchTerm === "") {
       // Resets the search results field on empty search
       setSearchInfo(defaultSearch)
@@ -52,9 +49,10 @@ function App() {
   // Movie Nomination Logic
 
   const [nominations, setNominations] = useState([])
+  const nominationsComplete = nominations.length >= 5
 
   const addNomination = movie => {
-    if (nominations.length < 5) {
+    if (!nominationsComplete) {
       setNominations([...nominations, movie])
     }
   }
@@ -63,11 +61,12 @@ function App() {
     setNominations(nominations.filter(nom => nom.id !== id))
   }
 
-  const nominationsComplete = nominations.length >= 5
+  
   
   return (
     <>
       {nominationsComplete ? <CompletionBanner nominations={nominations} /> : null}
+
       <Route path="/submission" render={()=><SubmissionModal nominations={nominations} setNominations={setNominations} />} />
   
       <Page nominationsComplete={nominationsComplete}>
@@ -88,13 +87,24 @@ const Page = styled.main`
   max-width: 1000px;
 
   display: grid;
-  gap: 16px;
-  grid-template-rows: auto auto;
-  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "search-bar search-bar"
-    "search-results nominations-list"
+    "nominations-list"
+    "search-bar"
+    "search-results"
   ;
+
+  @media (min-width: 600px) {
+    gap: 16px;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "search-bar search-bar"
+      "search-results nominations-list"
+    ;
+  }
 
 `
 

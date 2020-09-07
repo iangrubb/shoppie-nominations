@@ -1,14 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { PageSection } from '../styles/components'
+import { PageSection, SectionHeading, MovieList, Info } from '../styles/components'
 import ListedMovie from './listedMovie'
 
 const NominationsList = ({ nominations, removeNomination }) => {
     return (
         <PageSection gridArea="nominations-list">
-            <h4>Your Nominations</h4>
-            <ul>
+            <SectionHeading>Nominations</SectionHeading>
+            {nominations.length === 0 ?
+            <Info>You haven't added any nominations</Info> :  
+            <MovieList>
                 {nominations.map( movie => 
                     <ListedMovie
                         key={movie.id}
@@ -17,7 +19,8 @@ const NominationsList = ({ nominations, removeNomination }) => {
                         clickHandler={()=>removeNomination(movie.id)}
                     />
                 )}
-            </ul>
+            </MovieList>
+            }
         </PageSection>
     )
 }

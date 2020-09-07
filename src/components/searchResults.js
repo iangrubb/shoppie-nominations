@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { PageSection } from '../styles/components'
+import { PageSection, SectionHeading, MovieList, Button, Info } from '../styles/components'
 import ListedMovie from './listedMovie'
 
 
@@ -23,7 +23,8 @@ const SearchResults = props => {
     if (searchTerm === "") {
         return (
             <PageSection gridArea="search-results">
-                <h4>Submit a search to view potential nominations</h4>
+                <SectionHeading>Search Results</SectionHeading>
+                <Info>Submit a search to view potential nominations</Info>
             </PageSection>
         )
     }
@@ -31,7 +32,8 @@ const SearchResults = props => {
     if (error) {
         return (
             <PageSection gridArea="search-results">
-                <h4>{errorMessage(error, searchTerm)}</h4>
+                <SectionHeading>Search Results</SectionHeading>
+                <Info>{errorMessage(error, searchTerm)}</Info>
             </PageSection>
         )
     }
@@ -40,32 +42,50 @@ const SearchResults = props => {
 
     return (
         <PageSection gridArea="search-results">
-            <h4>Results for "{searchTerm}"</h4>
-            <div>
-                <button
+            <SectionHeading>Search Results</SectionHeading>
+            <Info>showing results for "{searchTerm}"</Info>
+            <Pagination>
+                <Button
                     disabled={page === 1}
                     onClick={()=>updateSearchResults(searchTerm, page - 1)}
-                >-</button>
-                <span>page {page} of {totalPages}</span>
-                <button
+                >{"<"}</Button>
+                <PageCounter>page {page} of {totalPages}</PageCounter>
+                <Button
                     disabled={page === totalPages}
                     onClick={()=>updateSearchResults(searchTerm, page + 1)}
-                >+</button>
-            </div>
-            <ul>
-                {results[page].map( movie => 
+                >{">"}</Button>
+            </Pagination>
+            <MovieList>
+                {results[page].map( movie => {
+                    const movieNominated = !!nominations.find(nom => nom.id === movie.id)
+                    return (
                     <ListedMovie
                         key={movie.id}
-                        disable={nominations.length >= 5 || !!nominations.find(nom => nom.id === movie.id)}
+                        disable={nominations.length >= 5 || movieNominated}
+                        highlight={movieNominated}
                         {...movie}
                         buttonLabel="Nominate"
                         clickHandler={()=>addNomination(movie)}
-                    />
+                    />)
+                    }
                 )}
-            </ul>
+            </MovieList>
         </PageSection>
     )
             
 }
 
 export default SearchResults
+
+const Pagination = styled.div`
+    width: 100%;
+    margin: 0 0 8px 0;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+`
+
+const PageCounter = styled.span`
+    text-style: italic;
+    margin: 0 8px;
+`

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import { fetchMovieById, extractMovieData } from '../logic/OMDBCommunication'
 
-import { useHistory, useLocation } from 'react-router-dom'
-
+import { MovieList, Button, Info, SectionHeading } from '../styles/components'
 import ListedMovie from './listedMovie'
 
 const SubmissionModal = ({nominations, setNominations}) => {
@@ -53,48 +53,40 @@ const SubmissionModal = ({nominations, setNominations}) => {
 
     // Conditional Rendering Logic
 
-    const renderNominationList = () => (
-        <>
-        <h2>Nominations</h2>
-        <ul>
-            {nominations.map( movie =>
-                <ListedMovie key={movie.id} {...movie} />
-            )}
-        </ul>
-        <button onClick={reviseNominations}>Revise</button>
-        <button onClick={resetNominations}>Start Over</button>
-        </>
-    )
+    if (validationStatus === "CHECKING") {
+        return (
+            <PageCover>
+                <Container>
+                    <Info>Loading Submissions...</Info>
+                </Container>
+            </PageCover>
+        )
+    }
 
-    const renderLoading = () => (
-        <div>Loading...</div>
-    )
-
-    const renderError = () => (
-        <>
-            <h2>Sorry, something went wrong with this request</h2>
-            <button onClick={resetNominations}>New Nominations</button>
-        </>
-        
-    )
-
-    const determineRender = () => {
-        switch(validationStatus){
-            case "CHECKING":
-                return renderLoading()
-            case "VALID":
-                return renderNominationList()
-            case "INVALID":
-                return renderError()
-            default:
-                return <div></div>
-        }
+    if (validationStatus === "INVALID") {
+        return (
+            <PageCover>
+                <Container>
+                    <Info>Sorry, something went wrong with this request</Info>
+                    <Button onClick={resetNominations}>New Nominations</Button>
+                </Container>
+            </PageCover>
+        )
     }
 
     return (
         <PageCover>
             <Container>
-                {determineRender()}
+            <SectionHeading>Nominations</SectionHeading>
+            <MovieList>
+                {nominations.map( movie =>
+                    <ListedMovie key={movie.id} {...movie} />
+                )}
+            </MovieList>
+            <ButtonRow>
+                <Button onClick={reviseNominations}>Revise</Button>
+                <Button onClick={resetNominations}>Start Over</Button>
+            </ButtonRow>
             </Container>
         </PageCover>
     )
@@ -119,8 +111,16 @@ const Container = styled.aside`
     background: var(--card-color);
     border-radius: 4px;
 
-    padding: 16px;
+    padding: 24px;
+
 
     display: flex;
     flex-direction: column;
+    align-items: center;
+`
+
+const ButtonRow = styled.div`
+    display: flex;
+    margin: 8px 0 0 0;
+    
 `
