@@ -88,7 +88,7 @@ const Title = styled.h1`
 
 const Page = styled.main`
 
-  margin: 64px auto 0 auto;
+  margin: 64px auto;
   width: 96vw;
   max-width: 1000px;
 

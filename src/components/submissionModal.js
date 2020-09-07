@@ -43,12 +43,19 @@ const SubmissionModal = ({nominations, setNominations}) => {
 
     const history = useHistory()
 
+    const [copied, setCopied] = useState(false)
+
     const resetNominations = () => {
         setNominations([])
         history.push("/")
     }
 
     const reviseNominations = () => history.push("/")
+
+    const shareLink = () => {
+        navigator.clipboard.writeText(window.location.href)
+        setCopied(true)
+    }
 
 
     // Conditional Rendering Logic
@@ -84,9 +91,13 @@ const SubmissionModal = ({nominations, setNominations}) => {
                 )}
             </MovieList>
             <ButtonRow>
+                <Button onClick={shareLink}>Share</Button>
                 <Button onClick={reviseNominations}>Revise</Button>
-                <Button onClick={resetNominations}>Start Over</Button>
+                <Button onClick={resetNominations}>Reset</Button>
             </ButtonRow>
+            </Container>
+            <Container hide={!copied}>
+                <Info>A sharable link has been copied to the clipboard.</Info>
             </Container>
         </PageCover>
     )
@@ -103,8 +114,12 @@ const PageCover = styled.div`
     right: 0;
     background: #555555ee;
 
-    display: grid;
-    place-items: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 `
 
 const Container = styled.aside`
@@ -113,10 +128,15 @@ const Container = styled.aside`
 
     padding: 24px;
 
+    width: 300px;
+    margin: 0 0 16px 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    transform: scale(${props => props.hide ? 0 : 1 });
+    transition: transform 0.2s ease;
 `
 
 const ButtonRow = styled.div`

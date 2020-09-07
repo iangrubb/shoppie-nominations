@@ -20,6 +20,7 @@ export const PageSection = styled.section`
 `
 
 export const SectionHeading = styled.h3`
+    font-size: 22px;
     margin: 0 0 8px 0;
 `
 
@@ -43,10 +44,10 @@ export const Button = styled.button`
     margin: 2px;
 
     width: fit-content;
-    padding: 4px 8px;
+    padding: 8px 12px;
     border-radius: 4px;
     
-    font-size: 15px;
+    font-size: 16px;
     color: ${props => props.light ? "var(--text-color)" : "white" };
 
     cursor: pointer;
