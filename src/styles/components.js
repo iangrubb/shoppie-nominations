@@ -11,4 +11,8 @@ export const PageSection = styled.section`
     border: var(--border);
     border-radius: 2px;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 `

@@ -3,10 +3,13 @@ import styled from 'styled-components'
 
 import { fetchMoviesByTitle, extractMovieData } from './logic/OMDBCommunication'
 
+import { Route } from 'react-router-dom'
+
 import SearchBar from './components/searchBar'
 import SearchResults from './components/searchResults'
 import NominationsList from './components/nominationsList'
 import CompletionBanner from './components/completionBanner'
+import SubmissionModal from './components/submissionModal'
 
 
 function App() {
@@ -46,10 +49,14 @@ function App() {
   }
 
   const nominationsComplete = nominations.length >= 5
+
+
   
   return (
     <>
-      {nominationsComplete ? <CompletionBanner /> : null}
+      {nominationsComplete ? <CompletionBanner nominations={nominations} /> : null}
+      <Route path="/submission" render={()=><SubmissionModal nominations={nominations} setNominations={setNominations} />} />
+  
       <Page nominationsComplete={nominationsComplete}>
         <SearchBar fetchThenSetResults={fetchThenSetResults} />
         <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} />

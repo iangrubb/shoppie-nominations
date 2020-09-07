@@ -28,17 +28,17 @@ const SearchResults = props => {
         } else {
             return (
                 <>
-                {searchTerm ? <h4>Results for "{searchTerm}"</h4> : null}
+                <h4>Results for "{searchTerm}"</h4>
                 <ul>
-                    {results.map( movie => 
-                        <ListedMovie
-                            key={movie.id}
-                            disable={nominations.length >= 5 || !!nominations.find(nom => nom.id === movie.id)}
-                            {...movie}
-                            buttonLabel="Nominate"
-                            clickHandler={()=>addNomination(movie)}
-                        />
-                    )}
+                {results.map( movie => 
+                    <ListedMovie
+                        key={movie.id}
+                        disable={nominations.length >= 5 || !!nominations.find(nom => nom.id === movie.id)}
+                        {...movie}
+                        buttonLabel="Nominate"
+                        clickHandler={()=>addNomination(movie)}
+                    />
+                )}
                 </ul>
                 </>
             )
