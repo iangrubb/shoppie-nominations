@@ -70,6 +70,7 @@ function App() {
       <Route path="/submission" render={()=><SubmissionModal nominations={nominations} setNominations={setNominations} />} />
   
       <Page nominationsComplete={nominationsComplete}>
+        <Title>The Shoppies</Title>
         <SearchBar updateSearchResults={updateSearchResults} />
         <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} updateSearchResults={updateSearchResults}/>
         <NominationsList nominations={nominations} removeNomination={removeNomination} />
@@ -80,6 +81,11 @@ function App() {
 
 export default App;
 
+const Title = styled.h1`
+  grid-area: title;
+  margin: 0;
+`
+
 const Page = styled.main`
 
   margin: calc( ${props => props.nominationsComplete ? "var(--banner-height)" : "0px"} + 64px ) auto 0 auto;
@@ -88,9 +94,10 @@ const Page = styled.main`
 
   display: grid;
   gap: 8px;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   grid-template-columns: 1fr;
   grid-template-areas:
+    "title"
     "nominations-list"
     "search-bar"
     "search-results"
@@ -98,9 +105,10 @@ const Page = styled.main`
 
   @media (min-width: 600px) {
     gap: 16px;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
+      "title ."
       "search-bar search-bar"
       "search-results nominations-list"
     ;

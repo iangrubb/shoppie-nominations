@@ -32,10 +32,10 @@ const Container = styled.li`
 const Dot = styled.span`
     position: absolute;
     left: -6px;
-    top: calc(50% - 0.05rem);
+    top: calc(50%);
     transform: translateY(-50%);
 
-    font-size: 1.4rem;
+    /* font-size: 1.4rem; */
 
 `
 

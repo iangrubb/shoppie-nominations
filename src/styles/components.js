@@ -19,7 +19,7 @@ export const PageSection = styled.section`
 
 `
 
-export const SectionHeading = styled.h4`
+export const SectionHeading = styled.h3`
     margin: 0 0 8px 0;
 `
 

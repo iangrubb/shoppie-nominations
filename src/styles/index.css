@@ -3,6 +3,10 @@
 }
 
 html {
+
+  --display-font: 'Acme', sans-serif;
+  --body-font: 'Lato', sans-serif;
+
   --background-color: #e6e9ec;
   --card-color: #f6f8fa;
   --notification-color: #354758;
@@ -22,6 +26,12 @@ body {
 
   background: var(--background-color);
   color: var(--text-color);
+  font-family: var(--body-font);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display-font);
+  letter-spacing: 0.02em;
 }
 
 code {
