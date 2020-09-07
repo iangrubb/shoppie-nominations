@@ -18,19 +18,42 @@ const errorMessage = (error, searchTerm) => {
 
 const SearchResults = props => {
 
-    const { searchInfo: { searchTerm, results, error }, addNomination, nominations } = props
+    const { searchInfo: { searchTerm, results, error, page, totalResults }, addNomination, nominations, updateSearchResults } = props
 
-    const determineContents = () => {
-        if (searchTerm === "") {
-            return <h4>Submit a search to view potential nominations</h4>
-        } else if (error) {
-            return <h4>{errorMessage(error, searchTerm)}</h4>
-        } else {
-            return (
-                <>
-                <h4>Results for "{searchTerm}"</h4>
-                <ul>
-                {results.map( movie => 
+    if (searchTerm === "") {
+        return (
+            <PageSection gridArea="search-results">
+                <h4>Submit a search to view potential nominations</h4>
+            </PageSection>
+        )
+    }
+
+    if (error) {
+        return (
+            <PageSection gridArea="search-results">
+                <h4>{errorMessage(error, searchTerm)}</h4>
+            </PageSection>
+        )
+    }
+
+    const totalPages = Math.ceil(totalResults / 10)
+
+    return (
+        <PageSection gridArea="search-results">
+            <h4>Results for "{searchTerm}"</h4>
+            <div>
+                <button
+                    disabled={page === 1}
+                    onClick={()=>updateSearchResults(searchTerm, page - 1)}
+                >-</button>
+                <span>page {page} of {totalPages}</span>
+                <button
+                    disabled={page === totalPages}
+                    onClick={()=>updateSearchResults(searchTerm, page + 1)}
+                >+</button>
+            </div>
+            <ul>
+                {results[page].map( movie => 
                     <ListedMovie
                         key={movie.id}
                         disable={nominations.length >= 5 || !!nominations.find(nom => nom.id === movie.id)}
@@ -39,17 +62,10 @@ const SearchResults = props => {
                         clickHandler={()=>addNomination(movie)}
                     />
                 )}
-                </ul>
-                </>
-            )
-        }
-    }
-
-    return (
-        <PageSection gridArea="search-results">
-            {determineContents()}
+            </ul>
         </PageSection>
     )
+            
 }
 
 export default SearchResults

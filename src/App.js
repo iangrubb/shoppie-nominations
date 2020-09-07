@@ -14,27 +14,42 @@ import SubmissionModal from './components/submissionModal'
 
 function App() {
 
-  const defaultSearch = {searchTerm: "", results: [], error: null}
+  // Movie Search Logic
+
+  const defaultSearch = {searchTerm: "", results: {}, error: null, page: 1, totalResults: 0}
 
   const [searchInfo, setSearchInfo] = useState(defaultSearch)
 
-  const fetchThenSetResults = searchTerm => {
+  const updateSearchResults = (searchTerm, page = 1) => {
+
+    // Make sure we don't refetch on same search term, and we only fetch more on a new page
 
     if (searchTerm === "") {
+      // Resets the search results field on empty search
       setSearchInfo(defaultSearch)
+    } else if (searchTerm === searchInfo.searchTerm && !!searchInfo.results[page]) {
+      // Skip fetch when local data is available, just update the current page
+      setSearchInfo({...searchInfo, page })
     } else {
-      fetchMoviesByTitle(searchTerm)
+      // Fetches data when needed.
+      console.log("ABOUT TO FETCH")
+      fetchMoviesByTitle(searchTerm, page)
       .then(data => {
         if (data.Error) {
-          setSearchInfo({ searchTerm, results: [], error: data.Error })
+          setSearchInfo({ searchTerm, results: {}, error: data.Error, page: 1, totalResults: 0 })
         } else {
-          const results = data.Search.map(extractMovieData)
-          setSearchInfo({ searchTerm, results, error: null })
+          // Reset results for a new search term, but add to it for an old one
+          const fetchedMovies = data.Search.map(extractMovieData)
+          const results = searchTerm === searchInfo.searchTerm ? {...searchInfo.results} : {}
+          results[page] = fetchedMovies
+          setSearchInfo({ searchTerm, results, error: null, page, totalResults: data.totalResults })
         }
       })
     }
-
   }
+
+
+  // Movie Nomination Logic
 
   const [nominations, setNominations] = useState([])
 
@@ -49,8 +64,6 @@ function App() {
   }
 
   const nominationsComplete = nominations.length >= 5
-
-
   
   return (
     <>
@@ -58,8 +71,8 @@ function App() {
       <Route path="/submission" render={()=><SubmissionModal nominations={nominations} setNominations={setNominations} />} />
   
       <Page nominationsComplete={nominationsComplete}>
-        <SearchBar fetchThenSetResults={fetchThenSetResults} />
-        <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} />
+        <SearchBar updateSearchResults={updateSearchResults} />
+        <SearchResults searchInfo={searchInfo} addNomination={addNomination} nominations={nominations} updateSearchResults={updateSearchResults}/>
         <NominationsList nominations={nominations} removeNomination={removeNomination} />
       </Page>
     </>

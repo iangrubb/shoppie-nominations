@@ -6,8 +6,8 @@ const baseFetch = term => {
     return fetch(`${baseURL}&${term}`).then(resp => resp.json())
 }
 
-export const fetchMoviesByTitle = searchTerm => {
-    const term = `s=${searchTerm}&type=movie`
+export const fetchMoviesByTitle = (searchTerm, page = 1) => {
+    const term = `s=${searchTerm}&type=movie&page=${page}`
     return baseFetch(term)
 }
 

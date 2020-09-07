@@ -3,13 +3,13 @@ import styled from 'styled-components'
 
 import { PageSection } from '../styles/components'
 
-const SearchBar = ({ fetchThenSetResults }) => {
+const SearchBar = ({ updateSearchResults }) => {
 
     const [searchTerm, setSearchTerm] = useState("")
 
     const handleSubmit = e => {
         e.preventDefault()
-        fetchThenSetResults(searchTerm)
+        updateSearchResults(searchTerm)
         setSearchTerm("")
     }
 

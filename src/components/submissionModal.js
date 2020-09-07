@@ -9,7 +9,7 @@ import ListedMovie from './listedMovie'
 
 const SubmissionModal = ({nominations, setNominations}) => {
 
-    // Logic for validating against search terms and ensuring the corresponding nomination state
+    // Search Term Validation Logic
 
     const [ validationStatus, setValidationStatus ] = useState("CHECKING")
 
@@ -30,7 +30,7 @@ const SubmissionModal = ({nominations, setNominations}) => {
                 if (responses.some(resp => resp.Error)) {
                     setValidationStatus("INVALID")
                 } else {
-                    setNominations(responses.map(resp => extractMovieData(resp)))
+                    setNominations(responses.map(extractMovieData))
                     setValidationStatus("VALID")
                 }
             })
@@ -89,7 +89,6 @@ const SubmissionModal = ({nominations, setNominations}) => {
             default:
                 return <div></div>
         }
-
     }
 
     return (
