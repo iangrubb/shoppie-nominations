@@ -5,14 +5,14 @@ import { useHistory } from 'react-router-dom'
 
 import { Button } from '../styles/components'
 
-const CompletionBanner = ({ nominations }) => {
+const CompletionBanner = ({ nominations, show }) => {
 
     const history = useHistory()
     const searchURL = "?" + nominations.map(nom => nom.id).join("&")
     const confirmSubmissions = () => history.push(`/submission${searchURL}` )
 
     return (
-        <Container>
+        <Container show={show}>
             <Announcement>You've nominated 5 movies!</Announcement>
             <Button light onClick={confirmSubmissions}>Submit Nominations</Button>
         </Container>
@@ -35,6 +35,10 @@ const Container = styled.aside`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    transform: translateY(${props => props.show ? "0" : "-100%"});
+    transition: transform 0.2s ease;
+
 `
 
 const Announcement = styled.h3`

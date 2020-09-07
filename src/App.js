@@ -65,7 +65,7 @@ function App() {
   
   return (
     <>
-      {nominationsComplete ? <CompletionBanner nominations={nominations} /> : null}
+      <CompletionBanner nominations={nominations} show={nominationsComplete} />
 
       <Route path="/submission" render={()=><SubmissionModal nominations={nominations} setNominations={setNominations} />} />
   
@@ -88,7 +88,7 @@ const Title = styled.h1`
 
 const Page = styled.main`
 
-  margin: calc( ${props => props.nominationsComplete ? "var(--banner-height)" : "0px"} + 64px ) auto 0 auto;
+  margin: 64px auto 0 auto;
   width: 96vw;
   max-width: 1000px;
 
@@ -103,7 +103,10 @@ const Page = styled.main`
     "search-results"
   ;
 
-  @media (min-width: 600px) {
+  transform: translateY(${props => props.nominationsComplete ? "var(--banner-height)" : "0"});
+  transition: transform 0.2s ease;
+
+  @media (min-width: 650px) {
     gap: 16px;
     grid-template-rows: auto auto auto;
     grid-template-columns: 1fr 1fr;
