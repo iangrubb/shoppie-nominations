@@ -15,8 +15,10 @@ const SubmissionModal = ({nominations, setNominations}) => {
 
     const location = useLocation()
 
+    const searchTerm = location.search
+
     useEffect(()=> {
-        const searchTerm = location.search
+        
         const validSearchTerm = searchTerm.charAt(0) === "?" && searchTerm.split("&").length === 5
         const submittedSearchIds = searchTerm.substring(1).split("&")
         const idsMatchExistingState = submittedSearchIds.every(id => nominations.find( nom => nom.id === id))
@@ -36,7 +38,7 @@ const SubmissionModal = ({nominations, setNominations}) => {
             })
         }
 
-    }, [])
+    }, [searchTerm, nominations, setNominations])
 
 
     // Navigation Logic

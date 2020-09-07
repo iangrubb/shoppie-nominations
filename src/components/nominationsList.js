@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import { PageSection, SectionHeading, MovieList, Info } from '../styles/components'
 import ListedMovie from './listedMovie'

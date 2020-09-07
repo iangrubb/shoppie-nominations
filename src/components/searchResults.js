@@ -20,29 +20,32 @@ const SearchResults = props => {
 
     const { searchInfo: { searchTerm, results, error, page, totalResults }, addNomination, nominations, updateSearchResults } = props
 
+    const totalPages = Math.ceil(totalResults / 10)
+
+
+    // Conditional Rendering Logic
+
+    const exterior = contents => (
+        <PageSection gridArea="search-results">
+            <SectionHeading>Search Results</SectionHeading>
+            {contents}
+        </PageSection>
+    )
+
     if (searchTerm === "") {
-        return (
-            <PageSection gridArea="search-results">
-                <SectionHeading>Search Results</SectionHeading>
-                <Info>Submit a search to view potential nominations</Info>
-            </PageSection>
+        return exterior(
+            <Info>Submit a search to view potential nominations</Info>
         )
     }
 
     if (error) {
-        return (
-            <PageSection gridArea="search-results">
-                <SectionHeading>Search Results</SectionHeading>
-                <Info>{errorMessage(error, searchTerm)}</Info>
-            </PageSection>
+        return exterior(
+            <Info>{errorMessage(error, searchTerm)}</Info>
         )
     }
 
-    const totalPages = Math.ceil(totalResults / 10)
-
-    return (
-        <PageSection gridArea="search-results">
-            <SectionHeading>Search Results</SectionHeading>
+    return exterior(
+            <>
             <Info>showing results for "{searchTerm}"</Info>
             <Pagination>
                 <Button
@@ -70,9 +73,8 @@ const SearchResults = props => {
                     }
                 )}
             </MovieList>
-        </PageSection>
-    )
-            
+            </>
+        )
 }
 
 export default SearchResults
@@ -86,6 +88,6 @@ const Pagination = styled.div`
 `
 
 const PageCounter = styled.span`
-    text-style: italic;
+    font-style: italic;
     margin: 0 8px;
 `

@@ -22,24 +22,25 @@ function App() {
 
   const updateSearchResults = (searchTerm, page = 1) => {
     if (searchTerm === "") {
-      // Resets the search results field on empty search
+      // On an empty search, reset searchInfo
       setSearchInfo(defaultSearch)
     } else if (searchTerm === searchInfo.searchTerm && !!searchInfo.results[page]) {
-      // Skip fetch when local data is available, just update the current page
+      // On a search to a previously seen page of the current searchTerm, load cached data
       setSearchInfo({...searchInfo, page })
     } else {
-      // Fetches data when needed.
-      console.log("ABOUT TO FETCH")
+      // For a new searchTerm or a new page on the old searchTerm, fetch more data
       fetchMoviesByTitle(searchTerm, page)
       .then(data => {
         if (data.Error) {
+          // Display an error message if the fetched data contains an error
           setSearchInfo({ searchTerm, results: {}, error: data.Error, page: 1, totalResults: 0 })
         } else {
-          // Reset results for a new search term, but add to it for an old one
+          // Add new page data to old results if the searchTerm is the same
+          // Reset the results if the searchTerm is new
+          const baseResults = searchTerm === searchInfo.searchTerm ? {...searchInfo.results} : {}
           const fetchedMovies = data.Search.map(extractMovieData)
-          const results = searchTerm === searchInfo.searchTerm ? {...searchInfo.results} : {}
-          results[page] = fetchedMovies
-          setSearchInfo({ searchTerm, results, error: null, page, totalResults: data.totalResults })
+          baseResults[page] = fetchedMovies
+          setSearchInfo({ searchTerm, results: baseResults, error: null, page, totalResults: data.totalResults })
         }
       })
     }
@@ -67,7 +68,9 @@ function App() {
     <>
       <CompletionBanner nominations={nominations} show={nominationsComplete} />
 
-      <Route path="/submission" render={()=><SubmissionModal nominations={nominations} setNominations={setNominations} />} />
+      <Route path="/submission" render={() =>
+        <SubmissionModal nominations={nominations} setNominations={setNominations} />
+      } />
   
       <Page nominationsComplete={nominationsComplete}>
         <Title>The Shoppies</Title>
