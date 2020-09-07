@@ -7,7 +7,7 @@ import ListedMovie from './listedMovie'
 const NominationsList = ({ nominations, removeNomination }) => {
     return (
         <PageSection gridArea="nominations-list">
-            <h4>Nominations</h4>
+            <h4>Your Nominations</h4>
             <ul>
                 {nominations.map( movie => 
                     <ListedMovie

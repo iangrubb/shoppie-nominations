@@ -7,7 +7,7 @@ const baseFetch = term => {
 }
 
 export const fetchMoviesByTitle = searchTerm => {
-    const term = `s=${searchTerm}`
+    const term = `s=${searchTerm}&type=movie`
     return baseFetch(term)
 }
 

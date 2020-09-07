@@ -11,17 +11,27 @@ import CompletionBanner from './components/completionBanner'
 
 function App() {
 
-  const [searchInfo, setSearchInfo] = useState({searchTerm: "", results: []})
+  const defaultSearch = {searchTerm: "", results: [], error: null}
+
+  const [searchInfo, setSearchInfo] = useState(defaultSearch)
 
   const fetchThenSetResults = searchTerm => {
-    fetchMoviesByTitle(searchTerm)
-    .then(data => {
-      const results = data.Search.map(extractMovieData)
-      setSearchInfo({ searchTerm, results })
-    })
+
+    if (searchTerm === "") {
+      setSearchInfo(defaultSearch)
+    } else {
+      fetchMoviesByTitle(searchTerm)
+      .then(data => {
+        if (data.Error) {
+          setSearchInfo({ searchTerm, results: [], error: data.Error })
+        } else {
+          const results = data.Search.map(extractMovieData)
+          setSearchInfo({ searchTerm, results, error: null })
+        }
+      })
+    }
+
   }
-
-
 
   const [nominations, setNominations] = useState([])
 
