@@ -1,6 +1,6 @@
 
 const key = process.env.REACT_APP_OMDB_KEY
-const baseURL = `http://www.omdbapi.com/?apikey=${key}`
+const baseURL = `https://www.omdbapi.com/?apikey=${key}`
 
 const baseFetch = term => {
     return fetch(`${baseURL}&${term}`).then(resp => resp.json())
